@@ -5,14 +5,9 @@
     {{#unless this.devoured}}
 </ul>
 
-<h2>Cats that are sleepy!</h2>
 
-<ul>
-  {{#each burgers}}
-    {{#if this.devoured}}
-</ul>
 
-<h2>Add a Cat</h2>
+<h2>Add a burger</h2>
  {{this.burger_name}}
 <form class="create-form" action="/{{this.id}}" method="POST">
 
@@ -25,3 +20,8 @@
   {{/if}}
     {{/each}}
 </form>
+
+<ul>
+  {{#each burgers}}
+    {{#if this.devoured}}
+</ul>
