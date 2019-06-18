@@ -18,9 +18,12 @@
   },
   "homepage": "https://github.com/Akili1999/burger#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
+    "method-override": "^3.0.0",
     "mysql": "^2.17.1",
+    "orm": "^5.0.4",
     "path": "^0.12.7"
   }
 }
