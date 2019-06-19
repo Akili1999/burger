@@ -9,6 +9,9 @@ app.use(express.static("public"));
 
 var exphbs = require("express-handlebars");
 
+app.use(express.urlencoded({ exnteded: true }));
+app.use(express.json());
+
 app.engine("handlebars", exphbs({ defaultLayout: "main"}));
 app.set("view engine", "handlebars");
 
