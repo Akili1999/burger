@@ -5,6 +5,10 @@ var router = express.Router();
 // Here we require our burger model that we made
 var burger = require('../models/burger.js');
 // This router redirects to the burgers table
+router.get("/", function(req, res){
+  res.redirect("/burgers")
+});
+
 router.get('/burgers', function (req, res) {
 
   burger.selectAll(function (data) {
