@@ -1,73 +1,77 @@
-var connection = require("../config/connection");
+var connection = require('../config/connection.js'); // Here we are requiring our connection javascript file
 
-function printQuestionMarks(num){
-    var arr = [];
+// This function helps with question mark syntax for mysql
+function printQuestionMarks(num) {
+  var arr = [];
+ for (var i = 0; i < num; i++) {
+    arr.push('?');
+  }
+  return arr.toString();
+}
+// This function helps with conversions for my sql
+function objToSql(ob) {
 
-    for (var i = 0; i < num; i++){
-        arr.push("?");
+  var arr = [];
+  for (var key in ob) {
+    if (ob.hasOwnProperty(key)) {
+      arr.push(key + '=' + ob[key]);
     }
-    return arr.toString()
-};
-
-function objToSql(ob){
-    var arr = [];
-
-    for (var key in ob){
-        if (Object.hasOwnProperty.call(ob, key)){
-            arr.push(key + "=" + ob[key]);
-        }
-    }
-    return arr.toString();
+  }
+  return arr.toString();
 }
 
+// This is our orm for the app
 var orm = {
-    selectAll: function(tableInput, cb){
-        console.log("hello", tableInput)
-        var queryString = "SELECT * FROM " + tableInput + ";";
-        connection.query(queryString, function(err, data){
-            console.log(err)
-            if (err) {
-                throw (err);
-            } 
-            cb(data)
-        });
-    },
-    insertOne: function(table, cols, vals, cb){
-        var queryString = "INSERT INTO " + table;
-        queryString += " (";
-        queryString += cols.toString();
-        queryString += ") ";
-        queryString += "VALUES (";
-        queryString += printQuestionMarks(vals.length);
-        queryString += ") ";
-        
-        console.log(queryString);
+    // This is for selecting the objects from our table
+  selectAll: function (table, callback) {
+    var queryString = 'SELECT * FROM ' + table + ';';
+    connection.query(queryString, function (err, result) {
+      if (err) throw err;
+      callback(result);
+    });
+  },
 
-        connection.query(queryString, vals, function(err, data){
-            if (err) {
-                throw err;
-            }
+   // This is for inserting new objects into our table
+  insertOne: function (table, cols, vals, callback) {
+    var queryString = 'INSERT INTO ' + table;
 
-            cb(data);
-        });
-    },
+    queryString = queryString + ' (';
+    queryString = queryString + cols.toString();
+    queryString = queryString + ') ';
+    queryString = queryString + 'VALUES (';
+    queryString = queryString + printQuestionMarks(vals.length);
+    queryString = queryString + ') ';
 
-    updateOne: function(table, objColVals, condition, cb) {
-        var queryString = "UPDATE " + table;
+    connection.query(queryString, vals, function (err, result) {
+      if (err) throw err;
+      callback(result);
+    });
+  },
+    // This is for updating objects into our table
+  updateOne: function (table, objColVals, condition, callback) {
+    var queryString = 'UPDATE ' + table;
 
-        queryString += " SET ";
-        queryString += objToSql(objColVals);
-        queryString += " WHERE ";
-        queryString += condition;
+    queryString = queryString + ' SET ';
+    queryString = queryString + objToSql(objColVals);
+    queryString = queryString + ' WHERE ';
+    queryString = queryString + condition;
 
-        console.log(queryString);
-        connection.query(queryString, function(err, data){
-            if (err) {
-                throw err;
-            }
-            cb(data);
-        });
-    }
+    connection.query(queryString, function (err, result) {
+      if (err) throw err;
+      callback(result);
+    });
+  },
+  // This allows us to delete things from our table
+  delete: function (table, condition, callback) {
+    var queryString = 'DELETE FROM ' + table;
+    queryString = queryString + ' WHERE ';
+    queryString = queryString + condition;
+
+    connection.query(queryString, function (err, result) {
+      if (err) throw err;
+      callback(result);
+    });
+  }
 };
-
+// We export the ORM for later use
 module.exports = orm;

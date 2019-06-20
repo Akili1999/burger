@@ -1,50 +1,42 @@
-var express = require("express");
-
+// Here we require the npm extension "express"
+var express = require('express');
+// Here we establish an express router
 var router = express.Router();
-
-var burger = require("../models/burger");
-
-router.get("/", function(req, res){
-    console.log("hello")
-    burger.selectAll(function(data){ 
-        console.log(data)
-        var hbsObject = {
-            burgers: data
-        }
-        console.log(hbsObject);
-        res.render("index", hbsObject);
-    });
+// Here we require our burger model that we made
+var burger = require('../models/burger.js');
+// This router redirects to the burgers table
+router.get('/', function (req, res) {
+  res.redirect('/burgers');
 });
+// This router renders the data within the table
+router.get('/burgers', function (req, res) {
 
-router.post("/api/burgers", function(req, res){
-    console.log(req.body)
-    burger.insertOne([
-        "burger_name", "devoured"
-    ], [
-        req.body.burger_name, "0"
-    ], function(){
-        res.redirect("/")
-    });
+  burger.selectAll(function (data) {
+    var hbsObject = { burgers: data };
+    res.render('index', hbsObject);
+  });
 });
-
-router.put("/api/burgers/:id", function(req, res){
-    var condition = "id = " + req.params.id;
-
-    console.log("condition", condition);
-
-    burger.updateOne({
-        devoured: req.body.devoured
-    }, condition, function(){
-       res.redirect("/");
-    });
+// This router posts our information that we put in for burger_name then ensures devoured is false
+router.post('/burgers/insertOne', function (req, res) {
+  burger.insertOne(['burger_name', 'devoured'], 
+  [req.body.burger_name, false], function () {
+    res.redirect('/burgers');
+  });
 });
+// This allows us to update the devoured status
+router.put('/burgers/updateOne/:id', function (req, res) {
+  var condition = 'id = ' + req.params.id;
 
-// router.delete("/api/burgers/:id", function(req, res){
-//     var condition = "id = " + req.params.id;
-
-//     burger.delete(condition, function(){
-//         res.redirect("/");
-//     });
-// });
-
+  burger.updateOne({ devoured: req.body.devoured }, condition, function () {
+    res.redirect('/burgers');
+  });
+});
+// This allows us to delete a burger after we have devoured it
+router.delete('/burgers/delete/:id', function (req, res) {
+  var condition = 'id = ' + req.params.id;
+  burger.delete(condition, function () {
+    res.redirect('/burgers');
+  });
+});
+// We export the router for later use
 module.exports = router;
