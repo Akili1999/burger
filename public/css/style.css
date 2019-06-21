@@ -1,6 +1,16 @@
 .container{
-    margin-left: 40%
+    margin-left: 40%;
 }
 body{
-    background-color: #D79922
-  }
+    background-image: url("/assets/img/antique-backdrop-background-129731.jpg")
+}
+#burger{
+    width: 275px;
+    height: 200px;
+}
+.input{
+    margin-left: -8%
+}
+#btnInsert{
+    margin-bottom: 10%
+}

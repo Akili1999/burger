@@ -8,7 +8,7 @@ var burger = require('../models/burger.js');
 router.get("/", function(req, res){
   res.redirect("/burgers")
 });
-
+// selecting the table
 router.get('/burgers', function (req, res) {
 
   burger.selectAll(function (data) {

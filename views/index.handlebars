@@ -1,5 +1,6 @@
     <div class="container">
             <h1>Eat Da Burger</h1>
+            <img src="/assets/img/hamburger-clipart-free-download-clip-art-on-music-notes-lovely-13.png" id="burger">
         <div class="row">
             <div class="col-md-12 ">
                 <div class="col-md-4">
@@ -12,7 +13,7 @@
                                 <p class="burgerType">{{this.burger_name}}</p>
                                 <form action="burgers/updateOne/{{this.id}}?_method=PUT" method="POST">
                                   <input type="hidden" name="devoured" value="true">
-                                  <button class="btnDevour" type="submit">Devour it</button>
+                                  <button class="btn btn-danger" type="submit">Devour it</button>
                                 </form>
                               </li>
                             {{/unless}}
@@ -22,25 +23,25 @@
                 </div>
                 <div class="col-md-4 text-center">
                     <div class="input">
-                        <h2  class="heading" id="add">Cook it up!</h2>
+                        <h2  class="heading1" id="add">Cook it up!</h2>
                         <div class="form-group">
                             <form method="POST" action="burgers/insertOne" class="addOne text-center">
-                                <textarea id="textArea" type="text" name="burger_name" rows="2" cols="40"></textarea>
-                                <button id="btnInsert"  type="submit" >Order Up!</button>
+                                <textarea id="textArea" type="text" name="burger_name" rows="2" cols="30"></textarea>
+                                <button id="btnInsert" class="btn btn-primary" type="submit" >Order Up!</button>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 text-left">
                     <div class="bottomBurgers">
-                        <h2 class="heading">Devoured Burgers</h2>
+                        <h2 class="heading2">Devoured Burgers</h2>
                         <ul>
                           {{#each burgers}}
                             {{#if this.devoured}}
                               <li>
                                 <p class="burgerType">{{this.burger_name}}</p>
                                 <form action="burgers/delete/{{this.id}}?_method=DELETE" method="POST">
-                                  <button class="btnDelete" type="submit">EW!</button>
+                                  <button class="btn btn-success" type="submit">EW!</button>
                                 </form>
                               </li>
                             {{/if}}
